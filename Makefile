@@ -9,4 +9,6 @@ extract: bible-text
 bible-text: $(SOURCE)
 	unzip $(SOURCE) -d $(BIBLE_DIR)
 
-.PHONY: extract
+test:
+	$(PYTHON) -m unittest discover -s extract -p "*_test.py"
+.PHONY: test

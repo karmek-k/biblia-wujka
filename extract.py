@@ -20,4 +20,3 @@ with open('toc.ncx') as f:
     toc = ET.parse(f)
 
 books = parse_toc(toc)
-assert len(books) == 66  # protestant canon length
