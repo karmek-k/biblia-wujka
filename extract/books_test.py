@@ -11,10 +11,12 @@ class TestBooks(unittest.TestCase):
         self.assertTrue(is_valid_title('Genesis, to jest pierwsze'))
         self.assertTrue(is_valid_title('Objawienie św. Jana'))
 
-
     def test_parse_toc(self):
         tree = ET.parse('tests/toc.ncx')
         books = parse_toc(tree)
 
-        self.assertEqual(66, len(books))
+        book_count = 66
+
+        self.assertEqual(book_count, len(books))
         self.assertIn('Genesis', books[0].name)
+        self.assertIn('Objawienie', books[book_count - 1].name)
