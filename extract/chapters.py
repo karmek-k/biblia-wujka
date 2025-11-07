@@ -14,8 +14,17 @@ class Chapter:
         return f'<Chapter number="{self.number}" href="{self.href}">'
     
     def parse(self) -> None:
-        # tree = ET.parse(self.href)
-        self.title = ''
+        tree = ET.parse(self.href)
+        root = tree.getroot() 
+        namespace = {'xhtml': 'http://www.w3.org/1999/xhtml'}
+
+        roman_numeral_node = root.find(".//xhtml:div[@class='center']/xhtml:b", namespace)
+        roman_numeral = ''.join(roman_numeral_node.itertext())
+
+        title_node = root.find(".//xhtml:div[@style='font-size:85%;line-height:normal']", namespace)
+        title = ''.join(title_node.itertext()).strip()
+
+        self.title = roman_numeral + ' ' + title
 
 
 def parse_chapter_toc(tree: ET.ElementTree) -> list[Chapter]:
