@@ -11,4 +11,5 @@ bible-text: $(SOURCE)
 
 test:
 	$(PYTHON) -m unittest discover -s extract -p "*_test.py"
-.PHONY: test
+
+.PHONY: extract, test

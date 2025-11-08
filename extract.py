@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from extract.books import parse_toc
+from extract.chapters import parse_chapter_toc
 
 
 #
@@ -17,3 +18,15 @@ os.chdir(directory)
 #
 toc = ET.parse('toc.ncx')
 books = parse_toc(toc)
+
+#
+# Extract chapters and verses
+#
+
+# one book and chapter for now
+book = books[0]
+book.chapters = parse_chapter_toc(ET.parse(book.href)) 
+
+# one chapter for now
+chapter = book.chapters[0]
+chapter.parse()
