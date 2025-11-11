@@ -29,7 +29,7 @@ class Chapter:
         roman_numeral = ''.join(roman_numeral_node.itertext())
 
         title_node = root.find(".//xhtml:div[@style='font-size:85%;line-height:normal']", namespace)
-        title = ''.join(title_node.itertext()).strip()
+        title = ''.join(title_node.itertext()).strip() if title_node is not None else ''
 
         return roman_numeral + ' ' + title
     
@@ -76,7 +76,7 @@ def parse_chapter_toc(tree: ET.ElementTree) -> list[Chapter]:
 
     for anchor in anchors:
         # only numeric anchor contents have meaningful hrefs
-        if not anchor.text.isnumeric():
+        if anchor.text is None or not anchor.text.isnumeric():
             continue
         
         result.append(Chapter(int(anchor.text), href=anchor.attrib['href']))
