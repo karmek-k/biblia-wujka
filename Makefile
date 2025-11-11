@@ -3,8 +3,9 @@ BIBLE_DIR=bible-text
 
 PYTHON=python3
 
-extract: bible-text
-	$(PYTHON) extract.py $(BIBLE_DIR)
+osis: bible-text
+	mkdir -p out
+	$(PYTHON) make_osis.py $(BIBLE_DIR)
 
 bible-text: $(SOURCE)
 	unzip $(SOURCE) -d $(BIBLE_DIR)
@@ -12,4 +13,4 @@ bible-text: $(SOURCE)
 test:
 	$(PYTHON) -m unittest discover -s extract -p "*_test.py"
 
-.PHONY: extract, test
+.PHONY: test
