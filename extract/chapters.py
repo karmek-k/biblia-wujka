@@ -54,9 +54,12 @@ class Chapter:
             
             text = re.sub(number_regex, '', text)
 
+            # remove newlines
+            text = re.sub(r'\n', ' ', text)
+
             # remove commentary tags
             # TODO: bring it back!!
-            text = re.sub(r'\u00a0\[\d+\]', '', text)
+            text = re.sub(r'\s\[\d+\]', '', text)
 
             result[number] = text
 

@@ -16,18 +16,18 @@ class OsisExport:
 
             # process chapters
             for i_chapter, chapter in enumerate(book.chapters, 1):
-                result += f"<chapter osisID='{book_name}.{i_chapter}'>"
+                result += f"<chapter osisID='{book_name}.{i_chapter}'>\n"
 
                 chapter.parse()
-                result += f"<title>{chapter.title}</title>"
+                result += f"<title>{chapter.title}</title>\n"
 
                 # chapter.verses is a dictionary
                 for i_verse, verse in chapter.verses.items():
-                    result += f"<verse osisID='{book_name}.{i_chapter}.{i_verse}'>{verse}</verse>"
+                    result += f"<verse osisID='{book_name}.{i_chapter}.{i_verse}'>{verse}</verse>\n"
 
-                result += "</chapter>"
+                result += "</chapter>\n"
 
-            result += "</div>"
+            result += "</div>\n"
 
         return self.template(''.join(result), publication_date=self.publication_date)
 
