@@ -1,84 +1,89 @@
 import re
-import xml.etree.ElementTree as ET
+
+from extract.parse import XmlTree, parse
 
 
 class Chapter:
     def __init__(self, number: int, *, href: str):
         self.number = number
         self.href = href
-        self.title = None
-        self.verses = []
+        self.title = ""
+        self.verses = {}
 
     def __str__(self) -> str:
-        return f'Chapter {self.number}'
-    
+        return f"Chapter {self.number}"
+
     def __repr__(self) -> str:
         return f'<Chapter number="{self.number}" href="{self.href}">'
-    
+
     def parse(self) -> None:
-        tree = ET.parse(self.href)
+        tree = parse(self.href)
 
         self.title = self._parse_title(tree)
         self.verses = self._parse_verses(tree)
 
-    def _parse_title(self, tree):
-        root = tree.getroot() 
-        namespace = {'xhtml': 'http://www.w3.org/1999/xhtml'}
+    def _parse_title(self, tree) -> str:
+        root = tree.getroot()
+        namespace = {"xhtml": "http://www.w3.org/1999/xhtml"}
 
-        roman_numeral_node = root.find(".//xhtml:div[@class='center']/xhtml:b", namespace)
-        roman_numeral = ''.join(roman_numeral_node.itertext())
+        roman_numeral_node = root.find(
+            ".//xhtml:div[@class='center']/xhtml:b", namespace
+        )
+        roman_numeral = "".join(roman_numeral_node.itertext())
 
-        title_node = root.find(".//xhtml:div[@style='font-size:85%;line-height:normal']", namespace)
-        title = ''.join(title_node.itertext()).strip() if title_node is not None else ''
+        title_node = root.find(
+            ".//xhtml:div[@style='font-size:85%;line-height:normal']", namespace
+        )
+        title = "".join(title_node.itertext()).strip() if title_node is not None else ""
 
-        return roman_numeral + ' ' + title
-    
-    def _parse_verses(self, tree):
-        root = tree.getroot() 
-        namespace = {'xhtml': 'http://www.w3.org/1999/xhtml'}
+        return roman_numeral + " " + title
 
-        result = dict()
+    def _parse_verses(self, tree) -> dict[str, str]:
+        root = tree.getroot()
+        namespace = {"xhtml": "http://www.w3.org/1999/xhtml"}
 
-        verses = root.findall('.//xhtml:p', namespace)
+        result = {}
+
+        verses = root.findall(".//xhtml:p", namespace)
         for verse in verses:
-            text = ''.join(verse.itertext()).strip()
+            text = "".join(verse.itertext()).strip()
 
-            if not re.search(r'[A-z]', text):
+            if not re.search(r"[A-z]", text):
                 # no letters found
                 continue
-            
-            number_regex = r'^([0-9]+)\u00a0'
+
+            number_regex = r"^([0-9]+)\u00a0"
 
             number_match = re.search(number_regex, text)
-            number = number_match.group(1) if number_match is not None else '1'
-            
-            text = re.sub(number_regex, '', text)
+            number = number_match.group(1) if number_match is not None else "1"
+
+            text = re.sub(number_regex, "", text)
 
             # remove newlines
-            text = re.sub(r'\n', ' ', text)
+            text = re.sub(r"\n", " ", text)
 
             # remove commentary tags
             # TODO: bring it back!!
-            text = re.sub(r'\s\[\d+\]', '', text)
+            text = re.sub(r"\s\[\d+\]", "", text)
 
             result[number] = text
 
         return result
 
 
-def parse_chapter_toc(tree: ET.ElementTree) -> list[Chapter]:
+def parse_chapter_toc(tree: XmlTree) -> list[Chapter]:
     root = tree.getroot()
-    namespace = {'xhtml': 'http://www.w3.org/1999/xhtml'}
-    
-    anchors = root.findall('.//xhtml:a', namespace)
-    
+    namespace = {"xhtml": "http://www.w3.org/1999/xhtml"}
+
+    anchors = root.findall(".//xhtml:a", namespace)
+
     result = []
 
     for anchor in anchors:
         # only numeric anchor contents have meaningful hrefs
         if anchor.text is None or not anchor.text.isnumeric():
             continue
-        
-        result.append(Chapter(int(anchor.text), href=anchor.attrib['href']))
+
+        result.append(Chapter(int(anchor.text), href=anchor.attrib["href"]))
 
     return result
