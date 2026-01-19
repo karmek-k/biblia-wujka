@@ -18,6 +18,7 @@ Aby zbudować projekt, potrzebujesz środowiska Linux (lub WSL) z zainstalowanym
 * `python3` – do uruchomienia skryptu konwertującego.
 * `make` – do automatyzacji procesu.
 * `unzip` – do rozpakowania danych źródłowych.
+* `zip` – do zbudowania archiwum SWORD.
 * `osis2mod` – narzędzie do kompilacji modułu SWORD.
     * *Debian/Ubuntu:* pakiet `libsword-utils` lub `xiphos`.
     * *Fedora/RHEL:* pakiet `sword-utils`.

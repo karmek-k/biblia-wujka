@@ -9,9 +9,10 @@ osis: bible-text
 	$(PYTHON) make_osis.py $(BIBLE_DIR)
 
 sword: osis
-	mkdir -p out/bwujka
-	osis2mod ./out/bwujka $(OSIS_RESULT) -z -v Vulg
-	cp sword/bwujka.conf out/
+	mkdir -p out/bwujka/mods.d out/bwujka/modules/texts/ztext/bwujka
+	osis2mod out/bwujka/modules/texts/ztext/bwujka $(OSIS_RESULT) -z -v Vulg
+	cp sword/bwujka.conf out/bwujka/mods.d
+	cd out/bwujka && zip -r ../bwujka_sword.zip *
 
 bible-text: $(SOURCE)
 	unzip $(SOURCE) -d $(BIBLE_DIR)

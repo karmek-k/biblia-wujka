@@ -20,6 +20,7 @@ To build the project, you need a Linux environment (or WSL) with the following p
 * `python3` – to run the conversion script.
 * `make` – to automate the process.
 * `unzip` – to extract source data.
+* `zip` – to build the SWORD archive.
 * `osis2mod` – tool for compiling the SWORD module.
     * *Debian/Ubuntu:* `libsword-utils` or `xiphos` package.
     * *Fedora/RHEL:* `sword-utils` package.
