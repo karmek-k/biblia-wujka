@@ -54,6 +54,7 @@ Oryginalny tekst Biblii (przekład ks. Jakuba Wujka) znajduje się w **domenie p
 Narzędzia konwertujące:
 
 > make_osis.py - converts the Wujek Bible from Wikisource EPUB to OSIS
+>
 > Copyright (C) 2025-2026 Bartosz Gleń
 > 
 > This program is free software: you can redistribute it and/or modify

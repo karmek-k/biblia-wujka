@@ -56,6 +56,7 @@ The original text of the Bible (translated by Fr. Jakub Wujek) is in the **publi
 Conversion tools:
 
 > make_osis.py - converts the Wujek Bible from Wikisource EPUB to OSIS
+>
 > Copyright (C) 2025-2026 Bartosz Gleń
 > 
 > This program is free software: you can redistribute it and/or modify
